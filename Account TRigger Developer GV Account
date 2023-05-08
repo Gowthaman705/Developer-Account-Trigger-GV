@@ -1,0 +1,32 @@
+trigger AccountTrigger on Account (before insert,before update,before delete, after insert, after update, after delete, after undelete)  {
+    system.debug('IsBefore:'+trigger.IsBefore);
+    system.debug('Isdelete:'+trigger.Isdelete);
+    system.debug('Isafter:'+trigger.Isafter);
+    system.debug('Isinsert:'+trigger.Isinsert );
+    system.debug('Isupdate:'+trigger.Isupdate);
+    system.debug('IsExecuting:'+trigger.Isexecuting);
+    system.debug('New:'+trigger.New);
+    system.debug('newmap:'+trigger.newmap);
+    system.debug('old:'+trigger.old);
+    system.debug('oldmap:'+trigger.oldmap);
+    
+    UpdateAccount(trigger.IsBefore,trigger.Isafter,trigger.IsInsert,trigger.Isupdate,trigger.new,trigger.old);
+    
+    public void UpdateAccount(Boolean Isbefore,Boolean Isafter,Boolean IsInsert,Boolean Isupdate,List<Account> newlist,List<Account> oldlist){
+        system.debug('Updatetrigger inside=======>');
+        
+        if(Isbefore && IsInsert || Isbefore && IsUpdate){ 
+        for(Account acc:newlist){
+            If(acc.Rating!=null && acc.Rating.equals('Hot')){
+                acc.AnnualRevenue = 10000;
+            }else If(acc.Rating!=null && acc.Rating.equals('Warm')){
+                acc.AnnualRevenue = 5000;
+            }else If(acc.Rating!=null && acc.Rating.equals('Cold')){
+                acc.AnnualRevenue = 1000;
+            }
+              
+        }
+        }
+    }
+    
+}
